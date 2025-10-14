@@ -18,6 +18,7 @@ public class GetNft extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Nft> nfts = nftRepository.findAll();
         req.setAttribute("nfts", nfts);
+
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 }
