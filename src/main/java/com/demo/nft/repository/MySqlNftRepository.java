@@ -45,9 +45,13 @@ public class MySqlNftRepository implements NftRepository {
         List<Nft> list = new ArrayList<>();
         String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts";
 
-        try (Connection conn = MySqlHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try {
+            Connection conn = MySqlHelper.getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Nft nft = new Nft();
@@ -57,18 +61,18 @@ public class MySqlNftRepository implements NftRepository {
                 nft.setThumbnailUrl(rs.getString("thumbnail_url"));
                 nft.setPrice(rs.getBigDecimal("price"));
                 nft.setCurrency(rs.getString("currency"));
-                nft.setCreatorId( rs.getLong("creator_id"));
+                nft.setCreatorId(rs.getLong("creator_id"));
                 nft.setOwnerId(rs.getLong("owner_id"));
                 nft.setCategoryId(rs.getLong("category_id"));
 //                nft.setStatus(rs.get("status"));
                 list.add(nft);
             }
 
+
+            return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        return list;
     }
-
 }

@@ -4,19 +4,28 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
     <servlet>
+        <servlet-name>GetNft</servlet-name>
+        <servlet-class>com.demo.nft.controller.GetNft</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetNft</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateNft</servlet-name>
+        <servlet-class>com.demo.nft.controller.CreateNft</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateNft</servlet-name>
+        <url-pattern>/nfts/create</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>com.demo.nft.controller.RegisterServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>GetNft</servlet-name>
-        <servlet-class>com.demo.nft.controller.GetNft</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetNft</servlet-name>
-        <url-pattern>/nft</url-pattern>
     </servlet-mapping>
 </web-app>
