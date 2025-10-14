@@ -58,7 +58,7 @@
                         </li>
 
                         <li>
-                            <a href="nft/create" class="navbar-link">Create Nft</a>
+                            <a href="nfts/create" class="navbar-link">Create Nft</a>
                         </li>
 
                         <li>

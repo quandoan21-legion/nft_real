@@ -54,7 +54,7 @@
                     <ul class="navbar-list">
 
                         <li>
-                            <a href="#" class="navbar-link">Home</a>
+                            <a href="/" class="navbar-link">Home</a>
                         </li>
 
                         <li>
@@ -101,7 +101,7 @@
 
 <!-- MAIN CONTENT -->
 <main>
-    <section class="create-nft-section">
+    <section class="hero">
         <div class="container">
             <div class="form-container">
                 <h1 class="h2 form-title">Create New NFT</h1>
@@ -253,7 +253,7 @@
             <div class="footer-brand">
 
                 <a href="#" class="logo">
-                    <img src="./assets/images/logo.png" alt="NAFT logo">
+                    <img src="../assets/images/logo.png" alt="NAFT logo">
                 </a>
 
                 <p class="footer-brand-text">
