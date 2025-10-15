@@ -1,6 +1,7 @@
 package com.demo.nft.controller;
 
 import com.demo.nft.entity.Nft;
+import com.demo.nft.repository.MySqlNftRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ public class CreateNft extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
         String description = req.getParameter("description");
         String thumbnail = req.getParameter("thumbnail");
         String priceParam = req.getParameter("price");
@@ -26,12 +28,14 @@ public class CreateNft extends HttpServlet {
         String statusParam = req.getParameter("status");
 
         Nft nft = new Nft();
+        nft.setName(name);
         nft.setDescription(description);
         nft.setThumbnailUrl(thumbnail);
         nft.setPrice(Float.valueOf(priceParam));
         nft.setCurrency(currency);
         nft.setCategoryId(Long.valueOf(categoryIdParam));
         nft.setStatus(Nft.Status.valueOf(statusParam));
-
+        MySqlNftRepository nftRepository = new MySqlNftRepository();
+        nftRepository.save(nft);
     }
 }
