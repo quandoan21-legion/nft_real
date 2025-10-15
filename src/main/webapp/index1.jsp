@@ -1,5 +1,5 @@
-<%@ page import="com.demo.nft.entity.Nft" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.demo.nft.entity.Nft" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,13 +12,9 @@
     <!--
       - favicon
     -->
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <!--
-      - custom css link
-    -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <!--
       - google font link
     -->
@@ -54,11 +50,11 @@
                     <ul class="navbar-list">
 
                         <li>
-                            <a href="/" class="navbar-link">Home</a>
+                            <a href="#" class="navbar-link">Home</a>
                         </li>
 
                         <li>
-                            <a href="nfts/create" class="navbar-link">Create Nft</a>
+                            <a href="#" class="navbar-link">About</a>
                         </li>
 
                         <li>
@@ -540,7 +536,6 @@
                                     </button>
                                 </div>
 
-                                <button class="place-bid-btn">Place bid</button>
 
                             </figure>
 
@@ -572,6 +567,11 @@
 
                                 </div>
 
+                                <div class="product-footer">
+                                    <p class="total-bid">12+ Place Bid.</p>
+
+                                    <button class="tag">New</button>
+                                </div>
 
                             </div>
 
