@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --jet: hsl(0, 0%, 20%);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
+    --onyx-1: hsl(0, 0%, 24%);
+    --onyx-2: hsl(0, 0%, 25%);
+    --gray-web: hsl(0, 0%, 48%);
+    --light-gray: hsl(0, 0%, 80%);
+    --golden-puppy: hsl(47, 100%, 49%);
+    --quick-silver: hsl(0, 0%, 63%);
+    --eerie-black-1: hsl(0, 0%, 15%);
+    --eerie-black-2: hsl(0, 0%, 7%);
+    --rich-black-fogra-39: hsl(0, 0%, 2%);
+    --red-crayola: hsl(356, 73%, 58%);
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background: var(--rich-black-fogra-39);
+    color: var(--quick-silver);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.form-header h1 {
+    color: var(--white);
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.form-header p {
+    color: var(--quick-silver);
+    font-size: 16px;
+}
+
+.create-form {
+    background: var(--eerie-black-2);
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--onyx-1);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.form-group label .required {
+    color: var(--red-crayola);
+}
+
+.form-control {
+    width: 100%;
+    background: var(--eerie-black-1);
+    color: var(--white);
+    border: 1px solid var(--onyx-1);
+    padding: 14px 16px;
+    border-radius: 4px;
+    font-size: 15px;
+    transition: all 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--golden-puppy);
+    box-shadow: 0 0 0 3px hsla(47, 100%, 49%, 0.1);
+}
+
+.form-control::placeholder {
+    color: var(--gray-web);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background: var(--eerie-black-1);
+    border: 2px dashed var(--onyx-1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.file-upload-label:hover {
+    border-color: var(--golden-puppy);
+    background: var(--onyx-2);
+}
+
+.file-upload-label .upload-icon {
+    font-size: 48px;
+    color: var(--golden-puppy);
+    margin-bottom: 15px;
+}
+
+.file-upload-label .upload-text {
+    color: var(--white);
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.file-upload-label .upload-hint {
+    color: var(--gray-web);
+    font-size: 13px;
+}
+
+.file-upload-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.preview-container {
+    display: none;
+    margin-top: 15px;
+}
+
+.preview-container.active {
+    display: block;
+}
+
+.preview-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--onyx-1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 1px solid var(--golden-puppy);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-primary {
+    background: var(--golden-puppy);
+    color: var(--black);
+}
+
+.btn-primary:hover {
+    background: hsl(47, 100%, 45%);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: hsla(47, 100%, 45%, 0.1);
+}
+
+.helper-text {
+    display: block;
+    color: var(--gray-web);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .create-form {
+        padding: 25px;
+    }
+
+    .form-header h1 {
+        font-size: 28px;
+    }
+}

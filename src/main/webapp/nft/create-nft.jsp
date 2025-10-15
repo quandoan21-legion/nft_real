@@ -1,37 +1,17 @@
-<%@ page import="com.demo.nft.entity.Nft" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.demo.nft.entity.Nft" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAFT - NFT Markeplace</title>
-
-    <!--
-      - favicon
-    -->
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-
-    <!--
-      - custom css link
-    -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-
-    <!--
-      - google font link
-    -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Create NFT - NAFT</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/form.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
+<body>
 
-<body id="top">
-
-<!--
-  - #HEADER
--->
 
 <header>
 
@@ -58,7 +38,7 @@
                         </li>
 
                         <li>
-                            <a href="#" class="navbar-link">About</a>
+                            <a href="/nfts/create" class="navbar-link">About</a>
                         </li>
 
                         <li>
@@ -99,151 +79,128 @@
 
 </header>
 
-<!-- MAIN CONTENT -->
+
 <main>
-    <section class="hero">
-        <div class="container">
-            <div class="form-container">
-                <h1 class="h2 form-title">Create New NFT</h1>
-                <p class="form-subtitle">Upload your unique digital artwork and list it on the marketplace</p>
 
-                <form action="create-nft" method="POST" enctype="multipart/form-data" id="createNftForm">
+    <article>
 
-                    <!-- Image Upload -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            NFT Image <span class="required">*</span>
-                        </label>
-                        <div class="image-upload-area" id="imageUploadArea">
-                            <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
-                            <p class="upload-text">Click to upload or drag and drop</p>
-                            <p class="upload-subtext">PNG, JPG, GIF up to 10MB</p>
-                            <input type="file" name="thumbnail" id="thumbnailInput" accept="image/*"
-                                   style="display: none;" required>
-                        </div>
-                        <div class="image-preview" id="imagePreview">
-                            <img src="" alt="Preview" id="previewImg">
-                        </div>
-                        <span class="error-message" id="thumbnailError">Please upload an image</span>
-                    </div>
+        <!--
+          - #HERO
+        -->
+
+        <section class="hero">
+            <div class="container">
+                <div class="form-header">
+                    <h1>Create Your NFT</h1>
+                    <p>Fill in the details below to mint your digital artwork</p>
+                </div>
+
+                <form class="create-form" id="nftForm" action="/nfts/create" method="POST"
+                      enctype="multipart/form-data">
 
                     <!-- NFT Name -->
                     <div class="form-group">
-                        <label for="nftName" class="form-label">
-                            NFT Name <span class="required">*</span>
-                        </label>
-                        <input
-                                type="text"
-                                id="nftName"
-                                name="name"
-                                class="form-input"
-                                placeholder="e.g. 'Rare Digital Artwork #001'"
-                                maxlength="100"
-                                required>
-                        <span class="form-help-text">Max 100 characters</span>
-                        <span class="error-message" id="nameError">NFT name is required</span>
+                        <label for="name">NFT Name <span class="required">*</span></label>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               class="form-control"
+                               placeholder="Enter NFT name"
+                               required>
                     </div>
 
                     <!-- Description -->
                     <div class="form-group">
-                        <label for="description" class="form-label">
-                            Description <span class="required">*</span>
-                        </label>
-                        <textarea
-                                id="description"
-                                name="description"
-                                class="form-textarea"
-                                placeholder="Describe your NFT in detail..."
-                                maxlength="1000"
-                                required></textarea>
-                        <span class="form-help-text">Max 1000 characters</span>
-                        <span class="error-message" id="descriptionError">Description is required</span>
+                        <label for="description">Description <span class="required">*</span></label>
+                        <textarea id="description"
+                                  name="description"
+                                  class="form-control"
+                                  placeholder="Describe your NFT artwork..."
+                                  required></textarea>
+                        <small class="helper-text">Provide a detailed description of your NFT</small>
                     </div>
 
-                    <!-- Price and Currency -->
+                    <!-- Thumbnail Upload -->
+                    <div class="form-group">
+                        <label>NFT Image <span class="required">*</span></label>
+                        <div class="file-upload-wrapper">
+                            <label for="thumbnailFile" class="file-upload-label">
+                                <div class="upload-icon">📁</div>
+                                <div class="upload-text">Click to upload image</div>
+                                <div class="upload-hint">PNG, JPG, GIF up to 10MB</div>
+                            </label>
+                            <input type="file"
+                                   id="thumbnailFile"
+                                   name="thumbnailFile"
+                                   class="file-upload-input"
+                                   accept="image/*"
+                                   required>
+                        </div>
+                        <div class="preview-container" id="previewContainer">
+                            <img id="previewImage" class="preview-image" alt="Preview">
+                        </div>
+                    </div>
+
+                    <!-- Price and Currency Row -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="price" class="form-label">
-                                Price <span class="required">*</span>
-                            </label>
-                            <input
-                                    type="number"
-                                    id="price"
-                                    name="price"
-                                    class="form-input"
-                                    placeholder="0.00"
-                                    step="0.001"
-                                    min="0"
-                                    required>
-                            <span class="error-message" id="priceError">Price must be greater than 0</span>
+                            <label for="price">Price <span class="required">*</span></label>
+                            <input type="number"
+                                   id="price"
+                                   name="price"
+                                   class="form-control"
+                                   placeholder="0.00"
+                                   step="0.001"
+                                   min="0"
+                                   required>
                         </div>
 
                         <div class="form-group">
-                            <label for="currency" class="form-label">
-                                Currency <span class="required">*</span>
-                            </label>
-                            <select id="currency" name="currency" class="form-select" required>
+                            <label for="currency">Currency <span class="required">*</span></label>
+                            <select id="currency" name="currency" class="form-control" required>
+                                <option value="">Select currency</option>
                                 <option value="ETH">ETH - Ethereum</option>
                                 <option value="BTC">BTC - Bitcoin</option>
+                                <option value="USDT">USDT - Tether</option>
                                 <option value="BNB">BNB - Binance Coin</option>
-                                <option value="SOL">SOL - Solana</option>
-                                <option value="MATIC">MATIC - Polygon</option>
-                                <option value="USD">USD - US Dollar</option>
                             </select>
                         </div>
                     </div>
 
                     <!-- Category -->
                     <div class="form-group">
-                        <label for="category" class="form-label">
-                            Category <span class="required">*</span>
-                        </label>
-                        <select id="category" name="categoryId" class="form-select" required>
-                            <option value="">Select a category</option>
+                        <label for="categoryId">Category <span class="required">*</span></label>
+                        <select id="categoryId" name="categoryId" class="form-control" required>
+                            <option value="">Select category</option>
                             <option value="1">Art</option>
-                            <option value="2">Photography</option>
-                            <option value="3">Gaming</option>
+                            <option value="2">Gaming</option>
+                            <option value="3">Photography</option>
                             <option value="4">Music</option>
-                            <option value="5">Video</option>
+                            <option value="5">Sports</option>
                             <option value="6">Collectibles</option>
-                            <option value="7">Sports</option>
-                            <option value="8">Utility</option>
                         </select>
-                        <span class="error-message" id="categoryError">Please select a category</span>
                     </div>
 
                     <!-- Status -->
                     <div class="form-group">
-                        <label for="status" class="form-label">
-                            Status <span class="required">*</span>
-                        </label>
-                        <select id="status" name="status" class="form-select" required>
+                        <label for="status">Status <span class="required">*</span></label>
+                        <select id="status" name="status" class="form-control" required>
                             <option value="ON_SALE">On Sale</option>
                             <option value="NOT_FOR_SALE">Not For Sale</option>
                         </select>
                     </div>
 
-                    <!-- NFT Code (Auto-generated, optional display) -->
-                    <input type="hidden" name="code" value="">
-
                     <!-- Form Actions -->
                     <div class="form-actions">
-                        <button type="button" class="btn btn-cancel" onclick="window.location.href='index1.jsp'">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-submit">
-                            Create NFT
-                        </button>
+                        <button type="submit" class="btn btn-primary">Create NFT</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
                     </div>
-
                 </form>
             </div>
-        </div>
-    </section>
+        </section>
+    </article>
 </main>
-<!--
-  - #FOOTER
--->
+
 
 <footer>
 
@@ -416,26 +373,33 @@
 </footer>
 
 
-<!--
-  - #GO TO TOP
--->
+<script>
+    // Image preview functionality
+    const fileInput = document.getElementById('thumbnailFile');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImage = document.getElementById('previewImage');
 
-<a href="#top" class="go-top" data-go-top>
-    <ion-icon name="arrow-up-outline"></ion-icon>
-</a>
+    fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImage.src = event.target.result;
+                previewContainer.classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-
-<!--
-  - custom js link
--->
-<script src="./assets/js/script.js"></script>
-
-<!--
-  - ionicon link
--->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+    // Form validation
+    document.getElementById('nftForm').addEventListener('submit', function (e) {
+        const price = document.getElementById('price').value;
+        if (parseFloat(price) < 0) {
+            e.preventDefault();
+            alert('Price must be greater than or equal to 0');
+            return false;
+        }
+    });
+</script>
 </body>
-
 </html>

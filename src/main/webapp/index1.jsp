@@ -50,11 +50,11 @@
                     <ul class="navbar-list">
 
                         <li>
-                            <a href="#" class="navbar-link">Home</a>
+                            <a href="/" class="navbar-link">Home</a>
                         </li>
 
                         <li>
-                            <a href="#" class="navbar-link">About</a>
+                            <a href="/nfts/create" class="navbar-link">About</a>
                         </li>
 
                         <li>
