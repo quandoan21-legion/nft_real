@@ -59,7 +59,7 @@ public class MySqlNftRepository implements NftRepository {
                 nft.setName(rs.getString("name"));
                 nft.setDescription(rs.getString("description"));
                 nft.setThumbnailUrl(rs.getString("thumbnail_url"));
-                nft.setPrice(rs.getBigDecimal("price"));
+                nft.setPrice(rs.getFloat("price"));
                 nft.setCurrency(rs.getString("currency"));
                 nft.setCreatorId(rs.getLong("creator_id"));
                 nft.setOwnerId(rs.getLong("owner_id"));

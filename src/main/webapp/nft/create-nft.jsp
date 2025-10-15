@@ -95,8 +95,7 @@
                     <p>Fill in the details below to mint your digital artwork</p>
                 </div>
 
-                <form class="create-form" id="nftForm" action="/nfts/create" method="POST"
-                      enctype="multipart/form-data">
+                <form class="create-form" id="nftForm" action="/nfts/create" method="POST" enctype="application/x-www-form-urlencoded">
 
                     <!-- NFT Name -->
                     <div class="form-group">
@@ -122,36 +121,23 @@
 
                     <!-- Thumbnail Upload -->
                     <div class="form-group">
-                        <label>NFT Image <span class="required">*</span></label>
-                        <div class="file-upload-wrapper">
-                            <label for="thumbnailFile" class="file-upload-label">
-                                <div class="upload-icon">📁</div>
-                                <div class="upload-text">Click to upload image</div>
-                                <div class="upload-hint">PNG, JPG, GIF up to 10MB</div>
-                            </label>
-                            <input type="file"
-                                   id="thumbnailFile"
-                                   name="thumbnailFile"
-                                   class="file-upload-input"
-                                   accept="image/*"
-                                   required>
-                        </div>
-                        <div class="preview-container" id="previewContainer">
-                            <img id="previewImage" class="preview-image" alt="Preview">
-                        </div>
+                        <label for="name">Thumbnails <span class="required">*</span></label>
+                        <input type="text"
+                               id="thumbnail"
+                               name="thumbnail"
+                               class="form-control"
+                               placeholder="Enter NFT Image Link"
+                               required>
                     </div>
 
                     <!-- Price and Currency Row -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="price">Price <span class="required">*</span></label>
-                            <input type="number"
+                            <input type="text"
                                    id="price"
                                    name="price"
                                    class="form-control"
-                                   placeholder="0.00"
-                                   step="0.001"
-                                   min="0"
                                    required>
                         </div>
 

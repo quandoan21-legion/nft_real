@@ -17,7 +17,7 @@ public class Nft {
     private String description;
     private String thumbnailUrl;
 
-    private BigDecimal price;
+    private Float price;
     private String currency;
 
     private Long creatorId;
