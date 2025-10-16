@@ -37,5 +37,7 @@ public class CreateNft extends HttpServlet {
         nft.setStatus(Nft.Status.valueOf(statusParam));
         MySqlNftRepository nftRepository = new MySqlNftRepository();
         nftRepository.save(nft);
+        resp.sendRedirect(req.getContextPath() + "/");
+//        req.getRequestDispatcher("/").forward(req, resp);
     }
 }

@@ -560,18 +560,13 @@
                                     </div>
 
                                     <div class="product-price">
-                                        <data value="0.568">0.568ETH</data>
+                                        <data value="<%= nft.getPrice()%>"><%= nft.getPrice()%> <%= nft.getCurrency()%></data>
 
-                                        <p class="label">Current Bid</p>
+                                        <p class="label"><%= nft.getStatus()%></p>
                                     </div>
 
                                 </div>
 
-                                <div class="product-footer">
-                                    <p class="total-bid">12+ Place Bid.</p>
-
-                                    <button class="tag">New</button>
-                                </div>
 
                             </div>
 

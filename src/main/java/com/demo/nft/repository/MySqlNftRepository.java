@@ -32,8 +32,8 @@ public class MySqlNftRepository implements NftRepository {
                 Timestamp now = Timestamp.valueOf(java.time.LocalDateTime.now());
                 Timestamp createdAt = nft.getCreatedAt() != null ? Timestamp.valueOf(nft.getCreatedAt()) : now;
                 Timestamp updatedAt = nft.getUpdatedAt() != null ? Timestamp.valueOf(nft.getUpdatedAt()) : now;
-
-                ps.setString(1, "123");
+                Long currentTimestamp = System.currentTimeMillis();
+                ps.setString(1, String.valueOf(currentTimestamp));
                 ps.setString(2, nft.getName());
                 ps.setString(3, nft.getDescription());
                 ps.setString(4, nft.getThumbnailUrl());
