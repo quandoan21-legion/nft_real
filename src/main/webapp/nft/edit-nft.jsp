@@ -1,5 +1,6 @@
 <%@ page import="com.demo.nft.entity.Nft" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.demo.nft.entity.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,16 +37,27 @@
 
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.currentUser}">
-                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
-                            ${sessionScope.currentUser.username}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    Object currentUserAttr = session.getAttribute("currentUser");
+                    User navUser = currentUserAttr instanceof User ? (User) currentUserAttr : null;
+                    String navUsername = (navUser != null && navUser.getUsername() != null && !navUser.getUsername().isBlank())
+                            ? navUser.getUsername()
+                            : "Profile";
+                    if (navUser != null) {
+                %>
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                    <%= navUsername %>
+                </a>
+                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline-block; margin-left:0.5rem;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+                <%
+                    } else {
+                %>
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
@@ -64,6 +76,12 @@
                       id="nftEditForm"
                       action="${pageContext.request.contextPath}/nfts/edit"
                       method="POST">
+                    <%
+                        Map<String, String> formData = (Map<String, String>) request.getAttribute("formData");
+                        String selectedCurrency = formData != null ? formData.get("currency") : null;
+                        String selectedCategoryId = formData != null ? formData.get("categoryId") : null;
+                        String selectedStatus = formData != null ? formData.get("status") : null;
+                    %>
                     <input type="hidden" name="id" value="${requestScope.nftId}">
 
                     <div class="form-group">
@@ -122,12 +140,12 @@
 
                         <div class="form-group">
                             <label for="currency">Currency <span class="required">*</span></label>
-                            <select id="currency" name="currency" class="form-control" required>
+                        <select id="currency" name="currency" class="form-control" required>
                                 <option value="">Select currency</option>
-                                <option value="ETH" <c:if test="${requestScope.formData.currency == 'ETH'}">selected</c:if>>ETH - Ethereum</option>
-                                <option value="BTC" <c:if test="${requestScope.formData.currency == 'BTC'}">selected</c:if>>BTC - Bitcoin</option>
-                                <option value="USDT" <c:if test="${requestScope.formData.currency == 'USDT'}">selected</c:if>>USDT - Tether</option>
-                                <option value="BNB" <c:if test="${requestScope.formData.currency == 'BNB'}">selected</c:if>>BNB - Binance Coin</option>
+                                <option value="ETH" <%= "ETH".equals(selectedCurrency) ? "selected" : "" %>>ETH - Ethereum</option>
+                                <option value="BTC" <%= "BTC".equals(selectedCurrency) ? "selected" : "" %>>BTC - Bitcoin</option>
+                                <option value="USDT" <%= "USDT".equals(selectedCurrency) ? "selected" : "" %>>USDT - Tether</option>
+                                <option value="BNB" <%= "BNB".equals(selectedCurrency) ? "selected" : "" %>>BNB - Binance Coin</option>
                             </select>
                             <span class="error-message" style="${empty requestScope.errors.currency ? 'display:none;' : ''}">
                                 ${requestScope.errors.currency}
@@ -139,12 +157,12 @@
                         <label for="categoryId">Category <span class="required">*</span></label>
                         <select id="categoryId" name="categoryId" class="form-control" required>
                             <option value="">Select category</option>
-                            <option value="1" <c:if test="${requestScope.formData.categoryId == '1'}">selected</c:if>>Art</option>
-                            <option value="2" <c:if test="${requestScope.formData.categoryId == '2'}">selected</c:if>>Gaming</option>
-                            <option value="3" <c:if test="${requestScope.formData.categoryId == '3'}">selected</c:if>>Photography</option>
-                            <option value="4" <c:if test="${requestScope.formData.categoryId == '4'}">selected</c:if>>Music</option>
-                            <option value="5" <c:if test="${requestScope.formData.categoryId == '5'}">selected</c:if>>Sports</option>
-                            <option value="6" <c:if test="${requestScope.formData.categoryId == '6'}">selected</c:if>>Collectibles</option>
+                            <option value="1" <%= "1".equals(selectedCategoryId) ? "selected" : "" %>>Art</option>
+                            <option value="2" <%= "2".equals(selectedCategoryId) ? "selected" : "" %>>Gaming</option>
+                            <option value="3" <%= "3".equals(selectedCategoryId) ? "selected" : "" %>>Photography</option>
+                            <option value="4" <%= "4".equals(selectedCategoryId) ? "selected" : "" %>>Music</option>
+                            <option value="5" <%= "5".equals(selectedCategoryId) ? "selected" : "" %>>Sports</option>
+                            <option value="6" <%= "6".equals(selectedCategoryId) ? "selected" : "" %>>Collectibles</option>
                         </select>
                         <span class="error-message" style="${empty requestScope.errors.categoryId ? 'display:none;' : ''}">
                             ${requestScope.errors.categoryId}
@@ -154,8 +172,8 @@
                     <div class="form-group">
                         <label for="status">Status <span class="required">*</span></label>
                         <select id="status" name="status" class="form-control" required>
-                            <option value="1" <c:if test="${requestScope.formData.status == '1'}">selected</c:if>>On Sale</option>
-                            <option value="0" <c:if test="${requestScope.formData.status == '0'}">selected</c:if>>Not For Sale</option>
+                            <option value="1" <%= "1".equals(selectedStatus) ? "selected" : "" %>>On Sale</option>
+                            <option value="0" <%= "0".equals(selectedStatus) ? "selected" : "" %>>Not For Sale</option>
                         </select>
                         <span class="error-message" style="${empty requestScope.errors.status ? 'display:none;' : ''}">
                             ${requestScope.errors.status}

@@ -2,7 +2,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
 <%@ page import="com.demo.nft.entity.User" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,16 +34,27 @@
             </div>
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.currentUser}">
-                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
-                            ${sessionScope.currentUser.username}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    Object currentUserAttr = session.getAttribute("currentUser");
+                    User navUser = currentUserAttr instanceof User ? (User) currentUserAttr : null;
+                    String navUsername = (navUser != null && navUser.getUsername() != null && !navUser.getUsername().isBlank())
+                            ? navUser.getUsername()
+                            : "Profile";
+                    if (navUser != null) {
+                %>
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                    <%= navUsername %>
+                </a>
+                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline-block; margin-left:0.5rem;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+                <%
+                    } else {
+                %>
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
@@ -54,10 +64,18 @@
     <article>
         <section class="explore-product">
             <div class="container">
-                <c:set var="displayName" value="${sessionScope.currentUser.fullName}" />
-                <c:if test="${empty displayName}">
-                    <c:set var="displayName" value="${sessionScope.currentUser.username}" />
-                </c:if>
+                <%
+                    String displayName = null;
+                    Object currentUserObj = session.getAttribute("currentUser");
+                    if (currentUserObj instanceof User) {
+                        User displayUser = (User) currentUserObj;
+                        displayName = displayUser.getFullName();
+                        if (displayName == null || displayName.isBlank()) {
+                            displayName = displayUser.getUsername();
+                        }
+                    }
+                    pageContext.setAttribute("displayName", displayName);
+                %>
                 <div class="section-header-wrapper">
                     <div>
                         <h2 class="h2 section-title">${displayName}'s NFTs</h2>
@@ -94,9 +112,10 @@
                             String contextPath = request.getContextPath();
                             Long nftId = nft.getId();
                             String editUrl = nftId != null ? contextPath + "/nfts/edit?id=" + nftId : null;
+                            String stockImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80";
                             String thumbnail = (nft.getThumbnailUrl() != null && !nft.getThumbnailUrl().isBlank())
                                     ? nft.getThumbnailUrl()
-                                    : contextPath + "/assets/images/new-item-1.jpg";
+                                    : stockImageUrl;
                             String name = (nft.getName() != null && !nft.getName().isBlank()) ? nft.getName() : "Untitled NFT";
                             String description = (nft.getDescription() != null && !nft.getDescription().isBlank())
                                     ? nft.getDescription()

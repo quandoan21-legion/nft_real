@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.demo.nft.entity.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,16 +34,27 @@
             </div>
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.currentUser}">
-                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
-                            ${sessionScope.currentUser.username}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    Object currentUserAttr = session.getAttribute("currentUser");
+                    User navUser = currentUserAttr instanceof User ? (User) currentUserAttr : null;
+                    String navUsername = (navUser != null && navUser.getUsername() != null && !navUser.getUsername().isBlank())
+                            ? navUser.getUsername()
+                            : "Profile";
+                    if (navUser != null) {
+                %>
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                    <%= navUsername %>
+                </a>
+                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline-block; margin-left:0.5rem;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+                <%
+                    } else {
+                %>
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
@@ -90,9 +101,10 @@
                 <%
                     } else {
                         for (Nft nft : nfts) {
+                            String stockImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80";
                             String thumbnail = (nft.getThumbnailUrl() != null && !nft.getThumbnailUrl().isBlank())
                                     ? nft.getThumbnailUrl()
-                                    : request.getContextPath() + "/assets/images/new-item-1.jpg";
+                                    : stockImageUrl;
                             String displayName = nft.getName() != null && !nft.getName().isBlank() ? nft.getName() : "Untitled NFT";
                             String displayDescription = nft.getDescription() != null && !nft.getDescription().isBlank()
                                     ? nft.getDescription()
@@ -101,6 +113,9 @@
                             String displayPrice = nft.getPrice() != null
                                     ? nft.getPrice() + (displayCurrency.isBlank() ? "" : " " + displayCurrency)
                                     : "Price not set";
+                            String detailUrl = nft.getId() != null
+                                    ? request.getContextPath() + "/nfts/view?id=" + nft.getId()
+                                    : request.getContextPath() + "/nfts";
                 %>
                 <li class="product-item">
                     <div class="product-card" tabindex="0">
@@ -109,7 +124,7 @@
                         </figure>
                         <div class="product-content">
                             <span class="product-category">On Sale</span>
-                            <a href="#" class="h4 product-title"><%= displayName %></a>
+                            <a href="<%= detailUrl %>" class="h4 product-title"><%= displayName %></a>
                             <p class="product-text"><%= displayDescription %></p>
                             <div class="product-meta">
                                 <div class="product-author">
@@ -129,7 +144,7 @@
                                 <p class="total-bid">
                                     Listed <%= nft.getUpdatedAt() != null ? nft.getUpdatedAt().toLocalDate() : "recently" %>
                                 </p>
-                                <button class="tag">View details</button>
+                                <a class="tag" href="<%= detailUrl %>">View details</a>
                             </div>
                         </div>
                     </div>

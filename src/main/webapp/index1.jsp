@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.demo.nft.entity.User" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,28 +56,10 @@
                         </li>
 
                         <li>
-                            <a href="/nfts/create" class="navbar-link">About</a>
+                            <a href="/nfts/create" class="navbar-link">Create New NFT</a>
                         </li>
 
-                        <li>
-                            <a href="#" class="navbar-link">Explore</a>
-                        </li>
 
-                        <li>
-                            <a href="#" class="navbar-link">Creators</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="navbar-link">Collections</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="navbar-link">Blog</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="navbar-link">Contact</a>
-                        </li>
 
                     </ul>
 
@@ -87,16 +69,27 @@
 
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.currentUser}">
-                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
-                            ${sessionScope.currentUser.username}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    Object currentUserAttr = session.getAttribute("currentUser");
+                    User navUser = currentUserAttr instanceof User ? (User) currentUserAttr : null;
+                    String navUsername = (navUser != null && navUser.getUsername() != null && !navUser.getUsername().isBlank())
+                            ? navUser.getUsername()
+                            : "Profile";
+                    if (navUser != null) {
+                %>
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                    <%= navUsername %>
+                </a>
+                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline-block; margin-left:0.5rem;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+                <%
+                    } else {
+                %>
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                <%
+                    }
+                %>
             </div>
 
         </div>
@@ -536,6 +529,13 @@
                             String authorHandle = (authorHandles != null && nftId != null && authorHandles.get(nftId) != null)
                                     ? authorHandles.get(nftId)
                                     : "creator";
+                            String detailUrl = nftId != null
+                                    ? request.getContextPath() + "/nfts/view?id=" + nftId
+                                    : request.getContextPath() + "/nfts";
+                            String stockImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80";
+                            String thumbnailUrl = (nft.getThumbnailUrl() != null && !nft.getThumbnailUrl().isBlank())
+                                    ? nft.getThumbnailUrl()
+                                    : stockImageUrl;
                     %>
                     <li class="product-item">
 
@@ -543,7 +543,7 @@
 
                             <figure class="product-banner">
 
-                                <img src="<%= nft.getThumbnailUrl()%>" alt="<%= nft.getName()%>">
+                                <img src="<%= thumbnailUrl %>" alt="<%= nft.getName()%>">
 
                                 <div class="product-actions">
                                     <button class="product-card-menu">
@@ -560,7 +560,7 @@
 
                             <div class="product-content">
 
-                                <a href="#" class="h4 product-title"><%= nft.getName()%></a>
+                                <a href="<%= detailUrl %>" class="h4 product-title"><%= nft.getName()%></a>
 
                                 <div class="product-meta">
 
@@ -586,6 +586,9 @@
 
                                 </div>
 
+                                <div class="product-footer" style="margin-top:1rem;">
+                                    <a class="btn btn-secondary" href="<%= detailUrl %>">View details</a>
+                                </div>
 
                             </div>
 

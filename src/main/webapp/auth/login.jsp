@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.demo.nft.entity.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,26 +23,37 @@
                 </button>
                 <nav class="navbar" data-navbar>
                     <ul class="navbar-list">
-                        <li><a href="${pageContext.request.contextPath}/home" class="navbar-link">Home</a></li>
-                        <li><a href="${pageContext.request.contextPath}/nfts" class="navbar-link">Explore</a></li>
-                        <li><a href="${pageContext.request.contextPath}/nfts/create" class="navbar-link">Create NFT</a></li>
-                        <li><a href="${pageContext.request.contextPath}/register" class="navbar-link">Register</a></li>
-                        <li><a href="${pageContext.request.contextPath}/login" class="navbar-link">Login</a></li>
+<%--                        <li><a href="${pageContext.request.contextPath}/home" class="navbar-link">Home</a></li>--%>
+<%--                        <li><a href="${pageContext.request.contextPath}/nfts" class="navbar-link">Explore</a></li>--%>
+<%--                        <li><a href="${pageContext.request.contextPath}/nfts/create" class="navbar-link">Create NFT</a></li>--%>
+<%--                        <li><a href="${pageContext.request.contextPath}/register" class="navbar-link">Register</a></li>--%>
+<%--                        <li><a href="${pageContext.request.contextPath}/login" class="navbar-link">Login</a></li>--%>
                     </ul>
                 </nav>
             </div>
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.currentUser}">
-                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
-                            ${sessionScope.currentUser.username}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Join now</a>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    Object currentUserAttr = session.getAttribute("currentUser");
+                    User navUser = currentUserAttr instanceof User ? (User) currentUserAttr : null;
+                    String navUsername = (navUser != null && navUser.getUsername() != null && !navUser.getUsername().isBlank())
+                            ? navUser.getUsername()
+                            : "Profile";
+                    if (navUser != null) {
+                %>
+                <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                    <%= navUsername %>
+                </a>
+                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline-block; margin-left:0.5rem;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+                <%
+                    } else {
+                %>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Join now</a>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
