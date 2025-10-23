@@ -8,9 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 public class CreateNft extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +31,10 @@ public class CreateNft extends HttpServlet {
         nft.setPrice(Float.valueOf(priceParam));
         nft.setCurrency(currency);
         nft.setCategoryId(Long.valueOf(categoryIdParam));
-        nft.setStatus(Nft.Status.valueOf(statusParam));
+        int status = (statusParam != null && !statusParam.isBlank())
+                ? Integer.parseInt(statusParam)
+                : Nft.STATUS_ON_SALE;
+        nft.setStatus(status);
         MySqlNftRepository nftRepository = new MySqlNftRepository();
         nftRepository.save(nft);
         resp.sendRedirect(req.getContextPath() + "/");

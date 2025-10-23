@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import utils.EnvUtil;
 
 public class MySqlHelper {
-    private static final String DB_URL = EnvUtil.get("DB_URL");
-    private static final String DB_USERNAME = EnvUtil.get("DB_USERNAME");
-    private static final String DB_PASSWORD = EnvUtil.get("DB_PASSWORD");
+    private static final String DB_URL = EnvUtil.getOrDefault(
+        "DB_URL",
+        "jdbc:mysql://localhost:3306/nft_market?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+    );
+    private static final String DB_USERNAME = EnvUtil.getOrDefault("DB_USERNAME", "nft_app");
+    private static final String DB_PASSWORD = EnvUtil.getOrDefault("DB_PASSWORD", "nft_app_password");
     private static volatile Connection connection;
 
     public MySqlHelper() {}

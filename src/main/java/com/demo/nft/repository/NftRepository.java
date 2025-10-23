@@ -10,5 +10,6 @@ public interface NftRepository {
     Nft findById(int id);
     Nft findByUsername(String username);
     List<Nft> findAll();
+    List<Nft> findByStatus(int status);
 
 }

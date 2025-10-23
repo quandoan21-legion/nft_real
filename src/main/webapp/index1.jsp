@@ -86,7 +86,7 @@
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
 
-                <button class="btn btn-primary">Sign in</button>
+                <button  class="btn btn-primary"><a href="/login">Sign In</a></button>
             </div>
 
         </div>
@@ -562,7 +562,7 @@
                                     <div class="product-price">
                                         <data value="<%= nft.getPrice()%>"><%= nft.getPrice()%> <%= nft.getCurrency()%></data>
 
-                                        <p class="label"><%= nft.getStatus()%></p>
+                                        <p class="label"><%= nft.getStatus() == Nft.STATUS_ON_SALE ? "On Sale" : "Not For Sale" %></p>
                                     </div>
 
                                 </div>

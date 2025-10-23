@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - NAFT</title>
+    <title>Sign In - NAFT</title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
@@ -32,7 +32,7 @@
             </div>
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Join now</a>
             </div>
         </div>
     </div>
@@ -43,10 +43,16 @@
         <section class="hero">
             <div class="container">
                 <div class="form-header">
-                    <h1>Create Your Account</h1>
-                    <p>Join the NAFT community to discover, collect, and sell extraordinary NFTs.</p>
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to manage your NFTs and access your personalized dashboard.</p>
                 </div>
-                <form class="create-form" action="${pageContext.request.contextPath}/register" method="POST" novalidate>
+
+                <div class="form-group notice success-message"
+                     style="${empty requestScope.successMessage ? 'display:none;' : ''}">
+                    <span>${requestScope.successMessage}</span>
+                </div>
+
+                <form class="create-form" action="${pageContext.request.contextPath}/login" method="POST" novalidate>
                     <div class="form-group">
                         <label for="username">Username <span class="required">*</span></label>
                         <input type="text"
@@ -59,45 +65,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text"
-                               id="fullName"
-                               name="fullName"
+                        <label for="password">Password <span class="required">*</span></label>
+                        <input type="password"
+                               id="password"
+                               name="password"
                                class="form-control"
-                               value="${requestScope.form.fullName}">
-                        <span class="error-message" style="${empty requestScope.errors.fullName ? 'display:none;' : ''}">${requestScope.errors.fullName}</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email <span class="required">*</span></label>
-                        <input type="email"
-                               id="email"
-                               name="email"
-                               class="form-control"
-                               value="${requestScope.form.email}"
                                required>
-                        <span class="error-message" style="${empty requestScope.errors.email ? 'display:none;' : ''}">${requestScope.errors.email}</span>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="password">Password <span class="required">*</span></label>
-                            <input type="password"
-                                   id="password"
-                                   name="password"
-                                   class="form-control"
-                                   required>
-                            <span class="error-message" style="${empty requestScope.errors.password ? 'display:none;' : ''}">${requestScope.errors.password}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
-                            <input type="password"
-                                   id="confirmPassword"
-                                   name="confirmPassword"
-                                   class="form-control"
-                                   required>
-                            <span class="error-message" style="${empty requestScope.errors.confirmPassword ? 'display:none;' : ''}">${requestScope.errors.confirmPassword}</span>
-                        </div>
+                        <span class="error-message" style="${empty requestScope.errors.password ? 'display:none;' : ''}">${requestScope.errors.password}</span>
                     </div>
 
                     <div class="form-group notice">
@@ -105,8 +79,8 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Register</button>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-secondary">Already have an account?</a>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                        <a href="${pageContext.request.contextPath}/register" class="btn btn-secondary">Create an account</a>
                     </div>
                 </form>
             </div>

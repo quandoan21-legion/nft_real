@@ -60,7 +60,7 @@ public class MySqlNftRepository implements NftRepository {
                     ps.setNull(9, Types.BIGINT);
                 }
 
-                ps.setString(10, nft.getStatus() != null ? nft.getStatus().name() : null);
+                ps.setInt(10, nft.getStatus());
                 ps.setTimestamp(11, createdAt);
                 ps.setTimestamp(12, updatedAt);
 
@@ -130,25 +130,88 @@ public class MySqlNftRepository implements NftRepository {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Nft nft = new Nft();
-                nft.setCode(rs.getString("code"));
-                nft.setName(rs.getString("name"));
-                nft.setDescription(rs.getString("description"));
-                nft.setThumbnailUrl(rs.getString("thumbnail_url"));
-                nft.setPrice(rs.getFloat("price"));
-                nft.setCurrency(rs.getString("currency"));
-                nft.setCreatorId(rs.getLong("creator_id"));
-                nft.setOwnerId(rs.getLong("owner_id"));
-                nft.setCategoryId(rs.getLong("category_id"));
-//                nft.setStatus(rs.get("status"));
-                list.add(nft);
+                list.add(mapRowToNft(rs));
             }
-
 
             return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<Nft> findByStatus(int status) {
+        List<Nft> list = new ArrayList<>();
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts WHERE status = ?";
+
+        try {
+            Connection conn = MySqlHelper.getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, status);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        list.add(mapRowToNft(rs));
+                    }
+                }
+            }
+
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Nft mapRowToNft(ResultSet rs) throws SQLException {
+        Nft nft = new Nft();
+        nft.setId(rs.getLong("id"));
+        nft.setCode(rs.getString("code"));
+        nft.setName(rs.getString("name"));
+        nft.setDescription(rs.getString("description"));
+        nft.setThumbnailUrl(rs.getString("thumbnail_url"));
+        nft.setPrice(rs.getFloat("price"));
+        nft.setCurrency(rs.getString("currency"));
+        long creatorId = rs.getLong("creator_id");
+        if (!rs.wasNull()) {
+            nft.setCreatorId(creatorId);
+        }
+        long ownerId = rs.getLong("owner_id");
+        if (!rs.wasNull()) {
+            nft.setOwnerId(ownerId);
+        }
+        long categoryId = rs.getLong("category_id");
+        if (!rs.wasNull()) {
+            nft.setCategoryId(categoryId);
+        }
+        Object statusValue = rs.getObject("status");
+        if (statusValue instanceof Number numberStatus) {
+            nft.setStatus(numberStatus.intValue());
+        } else if (statusValue instanceof String stringStatus) {
+            if ("ON_SALE".equalsIgnoreCase(stringStatus)) {
+                nft.setStatus(Nft.STATUS_ON_SALE);
+            } else if ("NOT_FOR_SALE".equalsIgnoreCase(stringStatus)) {
+                nft.setStatus(Nft.STATUS_NOT_FOR_SALE);
+            } else {
+                try {
+                    nft.setStatus(Integer.parseInt(stringStatus));
+                } catch (NumberFormatException e) {
+                    throw new SQLException("Unsupported status value: " + stringStatus, e);
+                }
+            }
+        } else if (statusValue != null) {
+            throw new SQLException("Unsupported status type: " + statusValue.getClass());
+        }
+        Timestamp createdAt = rs.getTimestamp("created_at");
+        if (createdAt != null) {
+            nft.setCreatedAt(createdAt.toLocalDateTime());
+        }
+        Timestamp updatedAt = rs.getTimestamp("updated_at");
+        if (updatedAt != null) {
+            nft.setUpdatedAt(updatedAt.toLocalDateTime());
+        }
+        return nft;
     }
 }

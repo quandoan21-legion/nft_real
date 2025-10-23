@@ -171,8 +171,8 @@
                     <div class="form-group">
                         <label for="status">Status <span class="required">*</span></label>
                         <select id="status" name="status" class="form-control" required>
-                            <option value="ON_SALE">On Sale</option>
-                            <option value="NOT_FOR_SALE">Not For Sale</option>
+                            <option value="1">On Sale</option>
+                            <option value="0">Not For Sale</option>
                         </select>
                     </div>
 

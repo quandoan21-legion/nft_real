@@ -3,13 +3,16 @@ package com.demo.nft.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 public class Nft {
+
+    public static final int STATUS_NOT_FOR_SALE = 0;
+    public static final int STATUS_ON_SALE = 1;
 
     private Long id;
     private String code;
@@ -24,16 +27,10 @@ public class Nft {
     private Long ownerId;
     private Long categoryId;
 
-    private Status status = Status.ON_SALE;
+    private int status = STATUS_ON_SALE;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long createdBy;
     private Long updatedBy;
-
-    public enum Status {
-        ON_SALE,
-        SOLD,
-        NOT_FOR_SALE
-    }
 }
