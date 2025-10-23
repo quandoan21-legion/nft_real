@@ -92,6 +92,8 @@
                     <%
                         for (Nft nft : ownedNfts) {
                             String contextPath = request.getContextPath();
+                            Long nftId = nft.getId();
+                            String editUrl = nftId != null ? contextPath + "/nfts/edit?id=" + nftId : null;
                             String thumbnail = (nft.getThumbnailUrl() != null && !nft.getThumbnailUrl().isBlank())
                                     ? nft.getThumbnailUrl()
                                     : contextPath + "/assets/images/new-item-1.jpg";
@@ -136,6 +138,11 @@
                                         <p class="label"><%= statusLabel %></p>
                                     </div>
                                 </div>
+                                <% if (editUrl != null) { %>
+                                <div class="product-edit-actions">
+                                    <a class="btn btn-secondary" href="<%= editUrl %>">Edit NFT</a>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
                     </li>

@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -525,7 +526,16 @@
 
                 <ul class="product-list">
                     <% List<Nft> nfts = (List<Nft>) request.getAttribute("nfts");
+                        Map<Long, String> authorNames = (Map<Long, String>) request.getAttribute("authorNames");
+                        Map<Long, String> authorHandles = (Map<Long, String>) request.getAttribute("authorHandles");
                         for (Nft nft : nfts) {
+                            Long nftId = nft.getId();
+                            String authorName = (authorNames != null && nftId != null && authorNames.get(nftId) != null)
+                                    ? authorNames.get(nftId)
+                                    : "Unknown Creator";
+                            String authorHandle = (authorHandles != null && nftId != null && authorHandles.get(nftId) != null)
+                                    ? authorHandles.get(nftId)
+                                    : "creator";
                     %>
                     <li class="product-item">
 
@@ -557,13 +567,13 @@
                                     <div class="product-author">
 
                                         <figure class="author-img">
-                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">
+                                            <img src="./assets/images/bidding-user.png" alt="<%= authorName %> avatar">
                                         </figure>
 
                                         <div class="author-content">
-                                            <h4 class="h5 author-title">Jack R</h4>
+                                            <h4 class="h5 author-title"><%= authorName %></h4>
 
-                                            <a href="#" class="author-username">@jackr</a>
+                                            <a href="#" class="author-username">@<%= authorHandle %></a>
                                         </div>
 
                                     </div>

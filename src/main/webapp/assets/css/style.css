@@ -408,6 +408,17 @@ header .container {
   margin-bottom: 25px;
 }
 
+.product-edit-actions {
+  margin-top: 20px;
+}
+
+.product-edit-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 18px;
+}
+
 .product-author {
   display: flex;
   justify-content: flex-start;

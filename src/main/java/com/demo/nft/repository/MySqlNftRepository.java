@@ -98,7 +98,58 @@ public class MySqlNftRepository implements NftRepository {
 
     @Override
     public Nft update(int id, Nft nft) {
-        return null;
+        String sql = "UPDATE nfts SET name = ?, description = ?, thumbnail_url = ?, price = ?, currency = ?, category_id = ?, status = ?, updated_at = ?, updated_by = ?, owner_id = ? WHERE id = ?";
+
+        try {
+            Connection conn = getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                Timestamp now = Timestamp.valueOf(java.time.LocalDateTime.now());
+                Timestamp updatedAt = nft.getUpdatedAt() != null ? Timestamp.valueOf(nft.getUpdatedAt()) : now;
+
+                ps.setString(1, nft.getName());
+                ps.setString(2, nft.getDescription());
+                ps.setString(3, nft.getThumbnailUrl());
+                if (nft.getPrice() != null) {
+                    ps.setFloat(4, nft.getPrice());
+                } else {
+                    ps.setNull(4, Types.FLOAT);
+                }
+                ps.setString(5, nft.getCurrency());
+                if (nft.getCategoryId() != null) {
+                    ps.setLong(6, nft.getCategoryId());
+                } else {
+                    ps.setNull(6, Types.BIGINT);
+                }
+                ps.setInt(7, nft.getStatus());
+                ps.setTimestamp(8, updatedAt);
+                if (nft.getUpdatedBy() != null) {
+                    ps.setLong(9, nft.getUpdatedBy());
+                } else {
+                    ps.setNull(9, Types.BIGINT);
+                }
+                if (nft.getOwnerId() != null) {
+                    ps.setLong(10, nft.getOwnerId());
+                } else {
+                    ps.setNull(10, Types.BIGINT);
+                }
+                ps.setInt(11, id);
+
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows == 0) {
+                    return null;
+                }
+
+                nft.setId((long) id);
+                nft.setUpdatedAt(updatedAt.toLocalDateTime());
+                return nft;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Không thể cập nhật NFT: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -108,7 +159,25 @@ public class MySqlNftRepository implements NftRepository {
 
     @Override
     public Nft findById(int id) {
-        return null;
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at, created_by, updated_by FROM nfts WHERE id = ?";
+
+        try {
+            Connection conn = MySqlHelper.getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return mapRowToNft(rs);
+                    }
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Không thể tìm NFT: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -119,7 +188,7 @@ public class MySqlNftRepository implements NftRepository {
     @Override
     public List<Nft> findAll() {
         List<Nft> list = new ArrayList<>();
-        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts";
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at, created_by, updated_by FROM nfts";
 
         try {
             Connection conn = MySqlHelper.getConnection();
@@ -143,7 +212,7 @@ public class MySqlNftRepository implements NftRepository {
     @Override
     public List<Nft> findByStatus(int status) {
         List<Nft> list = new ArrayList<>();
-        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts WHERE status = ?";
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at, created_by, updated_by FROM nfts WHERE status = ?";
 
         try {
             Connection conn = MySqlHelper.getConnection();
@@ -171,7 +240,7 @@ public class MySqlNftRepository implements NftRepository {
         if (ownerId == null) {
             return list;
         }
-        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts WHERE owner_id = ?";
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at, created_by, updated_by FROM nfts WHERE owner_id = ?";
 
         try {
             Connection conn = MySqlHelper.getConnection();
@@ -200,7 +269,12 @@ public class MySqlNftRepository implements NftRepository {
         nft.setName(rs.getString("name"));
         nft.setDescription(rs.getString("description"));
         nft.setThumbnailUrl(rs.getString("thumbnail_url"));
-        nft.setPrice(rs.getFloat("price"));
+        float price = rs.getFloat("price");
+        if (rs.wasNull()) {
+            nft.setPrice(null);
+        } else {
+            nft.setPrice(price);
+        }
         nft.setCurrency(rs.getString("currency"));
         long creatorId = rs.getLong("creator_id");
         if (!rs.wasNull()) {
@@ -239,6 +313,14 @@ public class MySqlNftRepository implements NftRepository {
         Timestamp updatedAt = rs.getTimestamp("updated_at");
         if (updatedAt != null) {
             nft.setUpdatedAt(updatedAt.toLocalDateTime());
+        }
+        long createdBy = rs.getLong("created_by");
+        if (!rs.wasNull()) {
+            nft.setCreatedBy(createdBy);
+        }
+        long updatedBy = rs.getLong("updated_by");
+        if (!rs.wasNull()) {
+            nft.setUpdatedBy(updatedBy);
         }
         return nft;
     }

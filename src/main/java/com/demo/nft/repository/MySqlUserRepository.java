@@ -24,6 +24,31 @@ public class MySqlUserRepository implements UserRepository {
         return findBy("SELECT * FROM users WHERE email = ? LIMIT 1", email);
     }
 
+    @Override
+    public Optional<User> findById(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+        String sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
+        try {
+            Connection conn = MySqlHelper.getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return Optional.of(mapRowToUser(rs));
+                    }
+                }
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("Không thể truy vấn người dùng: " + e.getMessage(), e);
+        }
+    }
+
     private Optional<User> findBy(String sql, String value) {
         try {
             Connection conn = MySqlHelper.getConnection();
