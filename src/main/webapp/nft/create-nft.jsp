@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +71,16 @@
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
 
-                <button class="btn btn-primary">Sign in</button>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.currentUser}">
+                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                            ${sessionScope.currentUser.username}
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
         </div>
@@ -95,7 +105,7 @@
                     <p>Fill in the details below to mint your digital artwork</p>
                 </div>
 
-                <form class="create-form" id="nftForm" action="/nfts/create" method="POST" enctype="application/x-www-form-urlencoded">
+                <form class="create-form" id="nftForm" action="${pageContext.request.contextPath}/nfts/create" method="POST" enctype="application/x-www-form-urlencoded">
 
                     <!-- NFT Name -->
                     <div class="form-group">
@@ -104,8 +114,12 @@
                                id="name"
                                name="name"
                                class="form-control"
+                               value="${requestScope.formData.name}"
                                placeholder="Enter NFT name"
                                required>
+                        <span class="error-message" style="${empty requestScope.errors.name ? 'display:none;' : ''}">
+                            ${requestScope.errors.name}
+                        </span>
                     </div>
 
                     <!-- Description -->
@@ -115,7 +129,10 @@
                                   name="description"
                                   class="form-control"
                                   placeholder="Describe your NFT artwork..."
-                                  required></textarea>
+                                  required>${requestScope.formData.description}</textarea>
+                        <span class="error-message" style="${empty requestScope.errors.description ? 'display:none;' : ''}">
+                            ${requestScope.errors.description}
+                        </span>
                         <small class="helper-text">Provide a detailed description of your NFT</small>
                     </div>
 
@@ -127,7 +144,11 @@
                                name="thumbnail"
                                class="form-control"
                                placeholder="Enter NFT Image Link"
+                               value="${requestScope.formData.thumbnail}"
                                required>
+                        <span class="error-message" style="${empty requestScope.errors.thumbnail ? 'display:none;' : ''}">
+                            ${requestScope.errors.thumbnail}
+                        </span>
                     </div>
 
                     <!-- Price and Currency Row -->
@@ -138,18 +159,25 @@
                                    id="price"
                                    name="price"
                                    class="form-control"
+                                   value="${requestScope.formData.price}"
                                    required>
+                            <span class="error-message" style="${empty requestScope.errors.price ? 'display:none;' : ''}">
+                                ${requestScope.errors.price}
+                            </span>
                         </div>
 
                         <div class="form-group">
                             <label for="currency">Currency <span class="required">*</span></label>
                             <select id="currency" name="currency" class="form-control" required>
                                 <option value="">Select currency</option>
-                                <option value="ETH">ETH - Ethereum</option>
-                                <option value="BTC">BTC - Bitcoin</option>
-                                <option value="USDT">USDT - Tether</option>
-                                <option value="BNB">BNB - Binance Coin</option>
+                                <option value="ETH" <c:if test="${requestScope.formData.currency == 'ETH'}">selected</c:if>>ETH - Ethereum</option>
+                                <option value="BTC" <c:if test="${requestScope.formData.currency == 'BTC'}">selected</c:if>>BTC - Bitcoin</option>
+                                <option value="USDT" <c:if test="${requestScope.formData.currency == 'USDT'}">selected</c:if>>USDT - Tether</option>
+                                <option value="BNB" <c:if test="${requestScope.formData.currency == 'BNB'}">selected</c:if>>BNB - Binance Coin</option>
                             </select>
+                            <span class="error-message" style="${empty requestScope.errors.currency ? 'display:none;' : ''}">
+                                ${requestScope.errors.currency}
+                            </span>
                         </div>
                     </div>
 
@@ -158,21 +186,24 @@
                         <label for="categoryId">Category <span class="required">*</span></label>
                         <select id="categoryId" name="categoryId" class="form-control" required>
                             <option value="">Select category</option>
-                            <option value="1">Art</option>
-                            <option value="2">Gaming</option>
-                            <option value="3">Photography</option>
-                            <option value="4">Music</option>
-                            <option value="5">Sports</option>
-                            <option value="6">Collectibles</option>
+                            <option value="1" <c:if test="${requestScope.formData.categoryId == '1'}">selected</c:if>>Art</option>
+                            <option value="2" <c:if test="${requestScope.formData.categoryId == '2'}">selected</c:if>>Gaming</option>
+                            <option value="3" <c:if test="${requestScope.formData.categoryId == '3'}">selected</c:if>>Photography</option>
+                            <option value="4" <c:if test="${requestScope.formData.categoryId == '4'}">selected</c:if>>Music</option>
+                            <option value="5" <c:if test="${requestScope.formData.categoryId == '5'}">selected</c:if>>Sports</option>
+                            <option value="6" <c:if test="${requestScope.formData.categoryId == '6'}">selected</c:if>>Collectibles</option>
                         </select>
+                        <span class="error-message" style="${empty requestScope.errors.categoryId ? 'display:none;' : ''}">
+                            ${requestScope.errors.categoryId}
+                        </span>
                     </div>
 
                     <!-- Status -->
                     <div class="form-group">
                         <label for="status">Status <span class="required">*</span></label>
                         <select id="status" name="status" class="form-control" required>
-                            <option value="1">On Sale</option>
-                            <option value="0">Not For Sale</option>
+                            <option value="1" <c:if test="${requestScope.formData.status == '1' || empty requestScope.formData.status}">selected</c:if>>On Sale</option>
+                            <option value="0" <c:if test="${requestScope.formData.status == '0'}">selected</c:if>>Not For Sale</option>
                         </select>
                     </div>
 
@@ -365,17 +396,19 @@
     const previewContainer = document.getElementById('previewContainer');
     const previewImage = document.getElementById('previewImage');
 
-    fileInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                previewImage.src = event.target.result;
-                previewContainer.classList.add('active');
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (fileInput && previewContainer && previewImage) {
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    previewImage.src = event.target.result;
+                    previewContainer.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 
     // Form validation
     document.getElementById('nftForm').addEventListener('submit', function (e) {

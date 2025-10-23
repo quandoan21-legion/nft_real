@@ -59,7 +59,6 @@ public class LoginServlet extends HttpServlet {
             } else {
                 User user = userOptional.get();
                 HttpSession session = req.getSession();
-                // Avoid storing the password hash in the session
                 user.setPasswordHash(null);
                 session.setAttribute("currentUser", user);
                 resp.sendRedirect(req.getContextPath() + "/home");

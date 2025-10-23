@@ -50,7 +50,7 @@ public class MySqlNftRepository implements NftRepository {
                     ps.setNull(7, Types.BIGINT);
                 }
                 if (nft.getOwnerId() != null) {
-                    ps.setLong(8, 1);
+                    ps.setLong(8, nft.getOwnerId());
                 } else {
                     ps.setNull(8, Types.BIGINT);
                 }
@@ -152,6 +152,34 @@ public class MySqlNftRepository implements NftRepository {
             }
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, status);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        list.add(mapRowToNft(rs));
+                    }
+                }
+            }
+
+                return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Nft> findByOwnerId(Long ownerId) {
+        List<Nft> list = new ArrayList<>();
+        if (ownerId == null) {
+            return list;
+        }
+        String sql = "SELECT id, code, name, description, thumbnail_url, price, currency, creator_id, owner_id, category_id, status, created_at, updated_at FROM nfts WHERE owner_id = ?";
+
+        try {
+            Connection conn = MySqlHelper.getConnection();
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối đến database.");
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, ownerId);
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
                         list.add(mapRowToNft(rs));

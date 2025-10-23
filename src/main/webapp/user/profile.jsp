@@ -1,14 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.demo.nft.entity.Nft" %>
+<%@ page import="com.demo.nft.entity.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - NAFT</title>
+    <title>My Collection - NAFT</title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/form.css">
 </head>
 <body>
 <header>
@@ -26,8 +29,7 @@
                         <li><a href="${pageContext.request.contextPath}/home" class="navbar-link">Home</a></li>
                         <li><a href="${pageContext.request.contextPath}/nfts" class="navbar-link">Explore</a></li>
                         <li><a href="${pageContext.request.contextPath}/nfts/create" class="navbar-link">Create NFT</a></li>
-                        <li><a href="${pageContext.request.contextPath}/register" class="navbar-link">Register</a></li>
-                        <li><a href="${pageContext.request.contextPath}/login" class="navbar-link">Login</a></li>
+                        <li><a href="${pageContext.request.contextPath}/profile" class="navbar-link active">My Collection</a></li>
                     </ul>
                 </nav>
             </div>
@@ -50,75 +52,100 @@
 
 <main>
     <article>
-        <section class="hero">
+        <section class="explore-product">
             <div class="container">
-                <div class="form-header">
-                    <h1>Create Your Account</h1>
-                    <p>Join the NAFT community to discover, collect, and sell extraordinary NFTs.</p>
+                <c:set var="displayName" value="${sessionScope.currentUser.fullName}" />
+                <c:if test="${empty displayName}">
+                    <c:set var="displayName" value="${sessionScope.currentUser.username}" />
+                </c:if>
+                <div class="section-header-wrapper">
+                    <div>
+                        <h2 class="h2 section-title">${displayName}'s NFTs</h2>
+                        <p class="section-text">Review the pieces you currently own on NAFT.</p>
+                    </div>
+                    <div class="filter-actions">
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/nfts/create">Mint new NFT</a>
+                    </div>
                 </div>
-                <form class="create-form" action="${pageContext.request.contextPath}/register" method="POST" novalidate>
-                    <div class="form-group">
-                        <label for="username">Username <span class="required">*</span></label>
-                        <input type="text"
-                               id="username"
-                               name="username"
-                               class="form-control"
-                               value="${requestScope.form.username}"
-                               required>
-                        <span class="error-message" style="${empty requestScope.errors.username ? 'display:none;' : ''}">${requestScope.errors.username}</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text"
-                               id="fullName"
-                               name="fullName"
-                               class="form-control"
-                               value="${requestScope.form.fullName}">
-                        <span class="error-message" style="${empty requestScope.errors.fullName ? 'display:none;' : ''}">${requestScope.errors.fullName}</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email <span class="required">*</span></label>
-                        <input type="email"
-                               id="email"
-                               name="email"
-                               class="form-control"
-                               value="${requestScope.form.email}"
-                               required>
-                        <span class="error-message" style="${empty requestScope.errors.email ? 'display:none;' : ''}">${requestScope.errors.email}</span>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="password">Password <span class="required">*</span></label>
-                            <input type="password"
-                                   id="password"
-                                   name="password"
-                                   class="form-control"
-                                   required>
-                            <span class="error-message" style="${empty requestScope.errors.password ? 'display:none;' : ''}">${requestScope.errors.password}</span>
+                <%
+                    List<Nft> ownedNfts = (List<Nft>) request.getAttribute("ownedNfts");
+                    User currentUser = (User) session.getAttribute("currentUser");
+                    String displayNameVal = (String) pageContext.getAttribute("displayName");
+                    if (displayNameVal == null || displayNameVal.isBlank()) {
+                        if (currentUser != null && currentUser.getFullName() != null && !currentUser.getFullName().isBlank()) {
+                            displayNameVal = currentUser.getFullName();
+                        } else if (currentUser != null) {
+                            displayNameVal = currentUser.getUsername();
+                        } else {
+                            displayNameVal = "Collector";
+                        }
+                    }
+                    if (ownedNfts == null || ownedNfts.isEmpty()) {
+                %>
+                <div class="empty-state">
+                    <p>You have not collected any NFTs yet. Start by <a href="${pageContext.request.contextPath}/nfts/create">minting a new NFT</a> or exploring the marketplace.</p>
+                </div>
+                <%
+                    } else {
+                %>
+                <ul class="product-list">
+                    <%
+                        for (Nft nft : ownedNfts) {
+                            String contextPath = request.getContextPath();
+                            String thumbnail = (nft.getThumbnailUrl() != null && !nft.getThumbnailUrl().isBlank())
+                                    ? nft.getThumbnailUrl()
+                                    : contextPath + "/assets/images/new-item-1.jpg";
+                            String name = (nft.getName() != null && !nft.getName().isBlank()) ? nft.getName() : "Untitled NFT";
+                            String description = (nft.getDescription() != null && !nft.getDescription().isBlank())
+                                    ? nft.getDescription()
+                                    : "No description available for this NFT.";
+                            String currency = nft.getCurrency() != null ? nft.getCurrency() : "";
+                            String priceLabel = nft.getPrice() != null
+                                    ? nft.getPrice() + (currency.isBlank() ? "" : " " + currency)
+                                    : "Price not set";
+                            String statusLabel = nft.getStatus() == Nft.STATUS_ON_SALE ? "On Sale" : "Not For Sale";
+                    %>
+                    <li class="product-item">
+                        <div class="product-card" tabindex="0">
+                            <figure class="product-banner">
+                                <img src="<%= thumbnail %>" alt="<%= name %>">
+                                <div class="product-actions">
+                                    <button class="product-card-menu" type="button">
+                                        <ion-icon name="ellipsis-horizontal"></ion-icon>
+                                    </button>
+                                    <button class="add-to-whishlist" data-whishlist-btn type="button">
+                                        <ion-icon name="heart"></ion-icon>
+                                    </button>
+                                </div>
+                            </figure>
+                            <div class="product-content">
+                                <a href="#" class="h4 product-title"><%= name %></a>
+                                <p class="product-text"><%= description %></p>
+                                <div class="product-meta">
+                                    <div class="product-author">
+                                        <figure class="author-img">
+                                            <img src="<%= contextPath %>/assets/images/bidding-user.png" alt="<%= name %> owner">
+                                        </figure>
+                                        <div class="author-content">
+                                            <h4 class="h5 author-title"><%= displayNameVal %></h4>
+                                            <span class="author-username">@<%= currentUser != null ? currentUser.getUsername() : "naft" %></span>
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <data value="<%= nft.getPrice() != null ? nft.getPrice() : 0 %>"><%= priceLabel %></data>
+                                        <p class="label"><%= statusLabel %></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
-                            <input type="password"
-                                   id="confirmPassword"
-                                   name="confirmPassword"
-                                   class="form-control"
-                                   required>
-                            <span class="error-message" style="${empty requestScope.errors.confirmPassword ? 'display:none;' : ''}">${requestScope.errors.confirmPassword}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group notice">
-                        <span class="error-message" style="${empty requestScope.errors.global ? 'display:none;' : ''}">${requestScope.errors.global}</span>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Register</button>
-                        <a href="${pageContext.request.contextPath}/login" class="btn btn-secondary">Already have an account?</a>
-                    </div>
-                </form>
+                    </li>
+                    <%
+                        }
+                    %>
+                </ul>
+                <%
+                    }
+                %>
             </div>
         </section>
     </article>
@@ -190,5 +217,7 @@
         </div>
     </div>
 </footer>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

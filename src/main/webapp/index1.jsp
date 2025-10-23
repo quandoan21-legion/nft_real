@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,8 +86,16 @@
 
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-
-                <button  class="btn btn-primary"><a href="/login">Sign In</a></button>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.currentUser}">
+                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                            ${sessionScope.currentUser.username}
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
         </div>
@@ -104,399 +113,399 @@
           - #HERO
         -->
 
-        <section class="hero">
-            <div class="container">
+<%--        <section class="hero">--%>
+<%--            <div class="container">--%>
 
-                <div class="hero-content">
+<%--                <div class="hero-content">--%>
 
-                    <h1 class="h1 hero-title">Discover digital art sell your specific <span>NFT</span></h1>
+<%--                    <h1 class="h1 hero-title">Discover digital art sell your specific <span>NFT</span></h1>--%>
 
-                    <p class="hero-text">
-                        Partner with one of the world’s largest retailers to showcase your brand and products.
-                    </p>
+<%--                    <p class="hero-text">--%>
+<%--                        Partner with one of the world’s largest retailers to showcase your brand and products.--%>
+<%--                    </p>--%>
 
-                    <div class="btn-group">
-                        <button class="btn btn-primary">Explore more</button>
+<%--                    <div class="btn-group">--%>
+<%--                        <button class="btn btn-primary">Explore more</button>--%>
 
-                        <button class="btn btn-secondary">Create now</button>
-                    </div>
+<%--                        <button class="btn btn-secondary">Create now</button>--%>
+<%--                    </div>--%>
 
-                </div>
+<%--                </div>--%>
 
-                <figure class="hero-banner">
-                    <img src="./assets/images/hero-banner.jpg" alt="nft art">
-                </figure>
+<%--                <figure class="hero-banner">--%>
+<%--                    <img src="./assets/images/hero-banner.jpg" alt="nft art">--%>
+<%--                </figure>--%>
 
-            </div>
-        </section>
+<%--            </div>--%>
+<%--        </section>--%>
 
 
         <!--
           - #NEW PRODUCT
         -->
 
-        <section class="new-product">
-            <div class="container">
+<%--        <section class="new-product">--%>
+<%--            <div class="container">--%>
 
-                <div class="section-header-wrapper">
+<%--                <div class="section-header-wrapper">--%>
 
-                    <h2 class="h2 section-title">Newest Items</h2>
+<%--                    <h2 class="h2 section-title">Newest Items</h2>--%>
 
-                    <button class="btn btn-primary">View all</button>
+<%--                    <button class="btn btn-primary">View all</button>--%>
 
-                </div>
+<%--                </div>--%>
 
-                <ul class="product-list">
+<%--                <ul class="product-list">--%>
 
-                    <li class="product-item">
+<%--                    <li class="product-item">--%>
 
-                        <div class="product-card" tabindex="0">
+<%--                        <div class="product-card" tabindex="0">--%>
 
-                            <figure class="product-banner">
+<%--                            <figure class="product-banner">--%>
 
-                                <img src="./assets/images/new-item-1.jpg" alt="Dimond riding a blue body art">
+<%--                                <img src="./assets/images/new-item-1.jpg" alt="Dimond riding a blue body art">--%>
 
-                                <div class="product-actions">
-                                    <button class="product-card-menu">
-                                        <ion-icon name="ellipsis-horizontal"></ion-icon>
-                                    </button>
+<%--                                <div class="product-actions">--%>
+<%--                                    <button class="product-card-menu">--%>
+<%--                                        <ion-icon name="ellipsis-horizontal"></ion-icon>--%>
+<%--                                    </button>--%>
 
-                                    <button class="add-to-whishlist" data-whishlist-btn>
-                                        <ion-icon name="heart"></ion-icon>
-                                    </button>
-                                </div>
+<%--                                    <button class="add-to-whishlist" data-whishlist-btn>--%>
+<%--                                        <ion-icon name="heart"></ion-icon>--%>
+<%--                                    </button>--%>
+<%--                                </div>--%>
 
-                                <button class="place-bid-btn">Place bid</button>
+<%--                                <button class="place-bid-btn">Place bid</button>--%>
 
-                            </figure>
+<%--                            </figure>--%>
 
-                            <div class="product-content">
+<%--                            <div class="product-content">--%>
 
-                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>
+<%--                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>--%>
 
-                                <div class="product-meta">
+<%--                                <div class="product-meta">--%>
 
-                                    <div class="product-author">
+<%--                                    <div class="product-author">--%>
 
-                                        <figure class="author-img">
-                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">
-                                        </figure>
+<%--                                        <figure class="author-img">--%>
+<%--                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">--%>
+<%--                                        </figure>--%>
 
-                                        <div class="author-content">
-                                            <h4 class="h5 author-title">Jack R</h4>
+<%--                                        <div class="author-content">--%>
+<%--                                            <h4 class="h5 author-title">Jack R</h4>--%>
 
-                                            <a href="#" class="author-username">@jackr</a>
-                                        </div>
+<%--                                            <a href="#" class="author-username">@jackr</a>--%>
+<%--                                        </div>--%>
 
-                                    </div>
+<%--                                    </div>--%>
 
-                                    <div class="product-price">
-                                        <data value="0.568">0.568ETH</data>
+<%--                                    <div class="product-price">--%>
+<%--                                        <data value="0.568">0.568ETH</data>--%>
 
-                                        <p class="label">Current Bid</p>
-                                    </div>
+<%--                                        <p class="label">Current Bid</p>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
-                                <div class="product-footer">
-                                    <p class="total-bid">12+ Place Bid.</p>
+<%--                                <div class="product-footer">--%>
+<%--                                    <p class="total-bid">12+ Place Bid.</p>--%>
 
-                                    <button class="tag">New</button>
-                                </div>
+<%--                                    <button class="tag">New</button>--%>
+<%--                                </div>--%>
 
-                            </div>
+<%--                            </div>--%>
 
-                        </div>
+<%--                        </div>--%>
 
-                    </li>
+<%--                    </li>--%>
 
-                    <li class="product-item">
+<%--                    <li class="product-item">--%>
 
-                        <div class="product-card" tabindex="0">
+<%--                        <div class="product-card" tabindex="0">--%>
 
-                            <figure class="product-banner">
+<%--                            <figure class="product-banner">--%>
 
-                                <img src="./assets/images/new-item-2.jpg" alt="Dimond riding a blue body art">
+<%--                                <img src="./assets/images/new-item-2.jpg" alt="Dimond riding a blue body art">--%>
 
-                                <div class="product-actions">
-                                    <button class="product-card-menu">
-                                        <ion-icon name="ellipsis-horizontal"></ion-icon>
-                                    </button>
+<%--                                <div class="product-actions">--%>
+<%--                                    <button class="product-card-menu">--%>
+<%--                                        <ion-icon name="ellipsis-horizontal"></ion-icon>--%>
+<%--                                    </button>--%>
 
-                                    <button class="add-to-whishlist" data-whishlist-btn>
-                                        <ion-icon name="heart"></ion-icon>
-                                    </button>
-                                </div>
+<%--                                    <button class="add-to-whishlist" data-whishlist-btn>--%>
+<%--                                        <ion-icon name="heart"></ion-icon>--%>
+<%--                                    </button>--%>
+<%--                                </div>--%>
 
-                                <button class="place-bid-btn">Place bid</button>
+<%--                                <button class="place-bid-btn">Place bid</button>--%>
 
-                            </figure>
+<%--                            </figure>--%>
 
-                            <div class="product-content">
+<%--                            <div class="product-content">--%>
 
-                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>
+<%--                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>--%>
 
-                                <div class="product-meta">
+<%--                                <div class="product-meta">--%>
 
-                                    <div class="product-author">
+<%--                                    <div class="product-author">--%>
 
-                                        <figure class="author-img">
-                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">
-                                        </figure>
+<%--                                        <figure class="author-img">--%>
+<%--                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">--%>
+<%--                                        </figure>--%>
 
-                                        <div class="author-content">
-                                            <h4 class="h5 author-title">Jack R</h4>
+<%--                                        <div class="author-content">--%>
+<%--                                            <h4 class="h5 author-title">Jack R</h4>--%>
 
-                                            <a href="#" class="author-username">@jackr</a>
-                                        </div>
+<%--                                            <a href="#" class="author-username">@jackr</a>--%>
+<%--                                        </div>--%>
 
-                                    </div>
+<%--                                    </div>--%>
 
-                                    <div class="product-price">
-                                        <data value="0.568">0.568ETH</data>
+<%--                                    <div class="product-price">--%>
+<%--                                        <data value="0.568">0.568ETH</data>--%>
 
-                                        <p class="label">Current Bid</p>
-                                    </div>
+<%--                                        <p class="label">Current Bid</p>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
-                                <div class="product-footer">
-                                    <p class="total-bid">12+ Place Bid.</p>
+<%--                                <div class="product-footer">--%>
+<%--                                    <p class="total-bid">12+ Place Bid.</p>--%>
 
-                                    <button class="tag">New</button>
-                                </div>
+<%--                                    <button class="tag">New</button>--%>
+<%--                                </div>--%>
 
-                            </div>
+<%--                            </div>--%>
 
-                        </div>
+<%--                        </div>--%>
 
-                    </li>
+<%--                    </li>--%>
 
-                    <li class="product-item">
+<%--                    <li class="product-item">--%>
 
-                        <div class="product-card" tabindex="0">
+<%--                        <div class="product-card" tabindex="0">--%>
 
-                            <figure class="product-banner">
+<%--                            <figure class="product-banner">--%>
 
-                                <img src="./assets/images/new-item-3.jpg" alt="Dimond riding a blue body art">
+<%--                                <img src="./assets/images/new-item-3.jpg" alt="Dimond riding a blue body art">--%>
 
-                                <div class="product-actions">
-                                    <button class="product-card-menu">
-                                        <ion-icon name="ellipsis-horizontal"></ion-icon>
-                                    </button>
+<%--                                <div class="product-actions">--%>
+<%--                                    <button class="product-card-menu">--%>
+<%--                                        <ion-icon name="ellipsis-horizontal"></ion-icon>--%>
+<%--                                    </button>--%>
 
-                                    <button class="add-to-whishlist" data-whishlist-btn>
-                                        <ion-icon name="heart"></ion-icon>
-                                    </button>
-                                </div>
+<%--                                    <button class="add-to-whishlist" data-whishlist-btn>--%>
+<%--                                        <ion-icon name="heart"></ion-icon>--%>
+<%--                                    </button>--%>
+<%--                                </div>--%>
 
-                                <button class="place-bid-btn">Place bid</button>
+<%--                                <button class="place-bid-btn">Place bid</button>--%>
 
-                            </figure>
+<%--                            </figure>--%>
 
-                            <div class="product-content">
+<%--                            <div class="product-content">--%>
 
-                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>
+<%--                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>--%>
 
-                                <div class="product-meta">
+<%--                                <div class="product-meta">--%>
 
-                                    <div class="product-author">
+<%--                                    <div class="product-author">--%>
 
-                                        <figure class="author-img">
-                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">
-                                        </figure>
+<%--                                        <figure class="author-img">--%>
+<%--                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">--%>
+<%--                                        </figure>--%>
 
-                                        <div class="author-content">
-                                            <h4 class="h5 author-title">Jack R</h4>
+<%--                                        <div class="author-content">--%>
+<%--                                            <h4 class="h5 author-title">Jack R</h4>--%>
 
-                                            <a href="#" class="author-username">@jackr</a>
-                                        </div>
+<%--                                            <a href="#" class="author-username">@jackr</a>--%>
+<%--                                        </div>--%>
 
-                                    </div>
+<%--                                    </div>--%>
 
-                                    <div class="product-price">
-                                        <data value="0.568">0.568ETH</data>
+<%--                                    <div class="product-price">--%>
+<%--                                        <data value="0.568">0.568ETH</data>--%>
 
-                                        <p class="label">Current Bid</p>
-                                    </div>
+<%--                                        <p class="label">Current Bid</p>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
-                                <div class="product-footer">
-                                    <p class="total-bid">12+ Place Bid.</p>
+<%--                                <div class="product-footer">--%>
+<%--                                    <p class="total-bid">12+ Place Bid.</p>--%>
 
-                                    <button class="tag">New</button>
-                                </div>
+<%--                                    <button class="tag">New</button>--%>
+<%--                                </div>--%>
 
-                            </div>
+<%--                            </div>--%>
 
-                        </div>
+<%--                        </div>--%>
 
-                    </li>
+<%--                    </li>--%>
 
-                    <li class="product-item">
+<%--                    <li class="product-item">--%>
 
-                        <div class="product-card" tabindex="0">
+<%--                        <div class="product-card" tabindex="0">--%>
 
-                            <figure class="product-banner">
+<%--                            <figure class="product-banner">--%>
 
-                                <img src="./assets/images/new-item-4.jpg" alt="Dimond riding a blue body art">
+<%--                                <img src="./assets/images/new-item-4.jpg" alt="Dimond riding a blue body art">--%>
 
-                                <div class="product-actions">
-                                    <button class="product-card-menu">
-                                        <ion-icon name="ellipsis-horizontal"></ion-icon>
-                                    </button>
+<%--                                <div class="product-actions">--%>
+<%--                                    <button class="product-card-menu">--%>
+<%--                                        <ion-icon name="ellipsis-horizontal"></ion-icon>--%>
+<%--                                    </button>--%>
 
-                                    <button class="add-to-whishlist" data-whishlist-btn>
-                                        <ion-icon name="heart"></ion-icon>
-                                    </button>
-                                </div>
+<%--                                    <button class="add-to-whishlist" data-whishlist-btn>--%>
+<%--                                        <ion-icon name="heart"></ion-icon>--%>
+<%--                                    </button>--%>
+<%--                                </div>--%>
 
-                                <button class="place-bid-btn">Place bid</button>
+<%--                                <button class="place-bid-btn">Place bid</button>--%>
 
-                            </figure>
+<%--                            </figure>--%>
 
-                            <div class="product-content">
+<%--                            <div class="product-content">--%>
 
-                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>
+<%--                                <a href="#" class="h4 product-title">Dimond riding a blue body art</a>--%>
 
-                                <div class="product-meta">
+<%--                                <div class="product-meta">--%>
 
-                                    <div class="product-author">
+<%--                                    <div class="product-author">--%>
 
-                                        <figure class="author-img">
-                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">
-                                        </figure>
+<%--                                        <figure class="author-img">--%>
+<%--                                            <img src="./assets/images/bidding-user.png" alt="Jack Reacher">--%>
+<%--                                        </figure>--%>
 
-                                        <div class="author-content">
-                                            <h4 class="h5 author-title">Jack R</h4>
+<%--                                        <div class="author-content">--%>
+<%--                                            <h4 class="h5 author-title">Jack R</h4>--%>
 
-                                            <a href="#" class="author-username">@jackr</a>
-                                        </div>
+<%--                                            <a href="#" class="author-username">@jackr</a>--%>
+<%--                                        </div>--%>
 
-                                    </div>
+<%--                                    </div>--%>
 
-                                    <div class="product-price">
-                                        <data value="0.568">0.568ETH</data>
+<%--                                    <div class="product-price">--%>
+<%--                                        <data value="0.568">0.568ETH</data>--%>
 
-                                        <p class="label">Current Bid</p>
-                                    </div>
+<%--                                        <p class="label">Current Bid</p>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
-                                <div class="product-footer">
-                                    <p class="total-bid">12+ Place Bid.</p>
+<%--                                <div class="product-footer">--%>
+<%--                                    <p class="total-bid">12+ Place Bid.</p>--%>
 
-                                    <button class="tag">New</button>
-                                </div>
+<%--                                    <button class="tag">New</button>--%>
+<%--                                </div>--%>
 
-                            </div>
+<%--                            </div>--%>
 
-                        </div>
+<%--                        </div>--%>
 
-                    </li>
+<%--                    </li>--%>
 
-                </ul>
+<%--                </ul>--%>
 
-            </div>
-        </section>
+<%--            </div>--%>
+<%--        </section>--%>
 
 
         <!--
           - #ABOUT
         -->
 
-        <section class="about">
-            <div class="container">
+<%--        <section class="about">--%>
+<%--            <div class="container">--%>
 
-                <h2 class="h2 about-title">Create and sell your NFTs</h2>
+<%--                <h2 class="h2 about-title">Create and sell your NFTs</h2>--%>
 
-                <ol class="about-list">
+<%--                <ol class="about-list">--%>
 
-                    <li class="about-item">
-                        <div class="about-card">
+<%--                    <li class="about-item">--%>
+<%--                        <div class="about-card">--%>
 
-                            <div class="card-number">01</div>
+<%--                            <div class="card-number">01</div>--%>
 
-                            <div class="card-icon">
-                                <img src="./assets/images/single-create-sell-item-1.png" alt="wallet icon">
-                            </div>
+<%--                            <div class="card-icon">--%>
+<%--                                <img src="./assets/images/single-create-sell-item-1.png" alt="wallet icon">--%>
+<%--                            </div>--%>
 
-                            <h3 class="h3 about-card-title">Set up Your Wallet</h3>
+<%--                            <h3 class="h3 about-card-title">Set up Your Wallet</h3>--%>
 
-                            <p class="about-card-text">
-                                There are many variations of passagi Ipsum available but the majorty have eration in
-                                some form, by
-                                injected
-                            </p>
+<%--                            <p class="about-card-text">--%>
+<%--                                There are many variations of passagi Ipsum available but the majorty have eration in--%>
+<%--                                some form, by--%>
+<%--                                injected--%>
+<%--                            </p>--%>
 
-                        </div>
-                    </li>
+<%--                        </div>--%>
+<%--                    </li>--%>
 
-                    <li class="about-item">
-                        <div class="about-card">
+<%--                    <li class="about-item">--%>
+<%--                        <div class="about-card">--%>
 
-                            <div class="card-number">02</div>
+<%--                            <div class="card-number">02</div>--%>
 
-                            <div class="card-icon">
-                                <img src="./assets/images/single-create-sell-item-2.png" alt="collection icon">
-                            </div>
+<%--                            <div class="card-icon">--%>
+<%--                                <img src="./assets/images/single-create-sell-item-2.png" alt="collection icon">--%>
+<%--                            </div>--%>
 
-                            <h3 class="h3 about-card-title">Create Your Collection</h3>
+<%--                            <h3 class="h3 about-card-title">Create Your Collection</h3>--%>
 
-                            <p class="about-card-text">
-                                There are many variations of passagi Ipsum available but the majorty have eration in
-                                some form, by
-                                injected
-                            </p>
+<%--                            <p class="about-card-text">--%>
+<%--                                There are many variations of passagi Ipsum available but the majorty have eration in--%>
+<%--                                some form, by--%>
+<%--                                injected--%>
+<%--                            </p>--%>
 
-                        </div>
-                    </li>
+<%--                        </div>--%>
+<%--                    </li>--%>
 
-                    <li class="about-item">
-                        <div class="about-card">
+<%--                    <li class="about-item">--%>
+<%--                        <div class="about-card">--%>
 
-                            <div class="card-number">03</div>
+<%--                            <div class="card-number">03</div>--%>
 
-                            <div class="card-icon">
-                                <img src="./assets/images/single-create-sell-item-3.png" alt="folder icon">
-                            </div>
+<%--                            <div class="card-icon">--%>
+<%--                                <img src="./assets/images/single-create-sell-item-3.png" alt="folder icon">--%>
+<%--                            </div>--%>
 
-                            <h3 class="h3 about-card-title">Add Your NFT's</h3>
+<%--                            <h3 class="h3 about-card-title">Add Your NFT's</h3>--%>
 
-                            <p class="about-card-text">
-                                There are many variations of passagi Ipsum available but the majorty have eration in
-                                some form, by
-                                injected
-                            </p>
+<%--                            <p class="about-card-text">--%>
+<%--                                There are many variations of passagi Ipsum available but the majorty have eration in--%>
+<%--                                some form, by--%>
+<%--                                injected--%>
+<%--                            </p>--%>
 
-                        </div>
-                    </li>
+<%--                        </div>--%>
+<%--                    </li>--%>
 
-                    <li class="about-item">
-                        <div class="about-card">
+<%--                    <li class="about-item">--%>
+<%--                        <div class="about-card">--%>
 
-                            <div class="card-number">04</div>
+<%--                            <div class="card-number">04</div>--%>
 
-                            <div class="card-icon">
-                                <img src="./assets/images/single-create-sell-item-4.png" alt="diamond icon">
-                            </div>
+<%--                            <div class="card-icon">--%>
+<%--                                <img src="./assets/images/single-create-sell-item-4.png" alt="diamond icon">--%>
+<%--                            </div>--%>
 
-                            <h3 class="h3 about-card-title">Sell Your NFT's</h3>
+<%--                            <h3 class="h3 about-card-title">Sell Your NFT's</h3>--%>
 
-                            <p class="about-card-text">
-                                There are many variations of passagi Ipsum available but the majorty have eration in
-                                some form, by
-                                injected
-                            </p>
+<%--                            <p class="about-card-text">--%>
+<%--                                There are many variations of passagi Ipsum available but the majorty have eration in--%>
+<%--                                some form, by--%>
+<%--                                injected--%>
+<%--                            </p>--%>
 
-                        </div>
-                    </li>
+<%--                        </div>--%>
+<%--                    </li>--%>
 
-                </ol>
+<%--                </ol>--%>
 
-            </div>
-        </section>
+<%--            </div>--%>
+<%--        </section>--%>
 
 
         <!--
@@ -510,7 +519,7 @@
 
                     <h2 class="h2 section-title">Explore Product</h2>
 
-                    <button class="btn btn-primary">Explore</button>
+<%--                    <button class="btn btn-primary">Explore</button>--%>
 
                 </div>
 
@@ -584,256 +593,256 @@
           - #TOP SELLER
         -->
 
-        <section class="top-seller">
-            <div class="container">
+<%--        <section class="top-seller">--%>
+<%--            <div class="container">--%>
 
-                <h2 class="h2 top-seller-title">
-                    Top seller in <span>1</span> day
-                    <ion-icon name="chevron-down"></ion-icon>
-                </h2>
+<%--                <h2 class="h2 top-seller-title">--%>
+<%--                    Top seller in <span>1</span> day--%>
+<%--                    <ion-icon name="chevron-down"></ion-icon>--%>
+<%--                </h2>--%>
 
-                <ol class="top-seller-list">
+<%--                <ol class="top-seller-list">--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">01</div>
+<%--                            <div class="card-number">01</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-01.png" alt="Brodband">
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-01.png" alt="Brodband">--%>
 
-                                <div class="avatar-badge">
-                                    <ion-icon name="checkmark-outline"></ion-icon>
-                                </div>
-                            </figure>
+<%--                                <div class="avatar-badge">--%>
+<%--                                    <ion-icon name="checkmark-outline"></ion-icon>--%>
+<%--                                </div>--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Brodband</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Brodband</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">02</div>
+<%--                            <div class="card-number">02</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-02.png" alt="Alexander">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-02.png" alt="Alexander">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Alexander</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Alexander</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">03</div>
+<%--                            <div class="card-number">03</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-03.png" alt="William Jeck">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-03.png" alt="William Jeck">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">William Jeck</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">William Jeck</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">04</div>
+<%--                            <div class="card-number">04</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-04.png" alt="Henry Jhon">
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-04.png" alt="Henry Jhon">--%>
 
-                                <div class="avatar-badge">
-                                    <ion-icon name="checkmark-outline"></ion-icon>
-                                </div>
-                            </figure>
+<%--                                <div class="avatar-badge">--%>
+<%--                                    <ion-icon name="checkmark-outline"></ion-icon>--%>
+<%--                                </div>--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Henry Jhon</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Henry Jhon</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">05</div>
+<%--                            <div class="card-number">05</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-05.png" alt="James Thomas">
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-05.png" alt="James Thomas">--%>
 
-                                <div class="avatar-badge">
-                                    <ion-icon name="checkmark-outline"></ion-icon>
-                                </div>
-                            </figure>
+<%--                                <div class="avatar-badge">--%>
+<%--                                    <ion-icon name="checkmark-outline"></ion-icon>--%>
+<%--                                </div>--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">James Thomas</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">James Thomas</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">06</div>
+<%--                            <div class="card-number">06</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-06.png" alt="Anthony Roy">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-06.png" alt="Anthony Roy">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Anthony Roy</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Anthony Roy</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">07</div>
+<%--                            <div class="card-number">07</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-07.png" alt="Chritopher">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-07.png" alt="Chritopher">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Chritopher</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Chritopher</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">08</div>
+<%--                            <div class="card-number">08</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-08.png" alt="Elijabeth Ran">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-08.png" alt="Elijabeth Ran">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Elijabeth Ran</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Elijabeth Ran</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">09</div>
+<%--                            <div class="card-number">09</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-01.png" alt="Brodband HR">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-01.png" alt="Brodband HR">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Brodband HR</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Brodband HR</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">10</div>
+<%--                            <div class="card-number">10</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-02.png" alt="Michel Raw">
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-02.png" alt="Michel Raw">--%>
 
-                                <div class="avatar-badge">
-                                    <ion-icon name="checkmark-outline"></ion-icon>
-                                </div>
-                            </figure>
+<%--                                <div class="avatar-badge">--%>
+<%--                                    <ion-icon name="checkmark-outline"></ion-icon>--%>
+<%--                                </div>--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Michel Raw</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Michel Raw</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">11</div>
+<%--                            <div class="card-number">11</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-03.png" alt="Liam Dylan">
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-03.png" alt="Liam Dylan">--%>
 
-                                <div class="avatar-badge">
-                                    <ion-icon name="checkmark-outline"></ion-icon>
-                                </div>
-                            </figure>
+<%--                                <div class="avatar-badge">--%>
+<%--                                    <ion-icon name="checkmark-outline"></ion-icon>--%>
+<%--                                </div>--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Liam Dylan</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Liam Dylan</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                    <li class="top-seller-item">
-                        <a href="#" class="top-seller-card">
+<%--                    <li class="top-seller-item">--%>
+<%--                        <a href="#" class="top-seller-card">--%>
 
-                            <div class="card-number">12</div>
+<%--                            <div class="card-number">12</div>--%>
 
-                            <figure class="card-avatar">
-                                <img src="./assets/images/seller-04.png" alt="Thomas Jar">
-                            </figure>
+<%--                            <figure class="card-avatar">--%>
+<%--                                <img src="./assets/images/seller-04.png" alt="Thomas Jar">--%>
+<%--                            </figure>--%>
 
-                            <div class="card-content">
-                                <h3 class="h5 card-title">Thomas Jar</h3>
+<%--                            <div class="card-content">--%>
+<%--                                <h3 class="h5 card-title">Thomas Jar</h3>--%>
 
-                                <data value="2500000">$2500,000</data>
-                            </div>
+<%--                                <data value="2500000">$2500,000</data>--%>
+<%--                            </div>--%>
 
-                        </a>
-                    </li>
+<%--                        </a>--%>
+<%--                    </li>--%>
 
-                </ol>
+<%--                </ol>--%>
 
-            </div>
-        </section>
+<%--            </div>--%>
+<%--        </section>--%>
 
     </article>
 

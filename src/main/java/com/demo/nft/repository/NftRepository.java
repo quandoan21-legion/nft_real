@@ -11,5 +11,6 @@ public interface NftRepository {
     Nft findByUsername(String username);
     List<Nft> findAll();
     List<Nft> findByStatus(int status);
+    List<Nft> findByOwnerId(Long ownerId);
 
 }

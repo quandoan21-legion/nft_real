@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.demo.nft.entity.Nft" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +31,19 @@
                         <li><a href="${pageContext.request.contextPath}/nfts/create" class="navbar-link">Create NFT</a></li>
                     </ul>
                 </nav>
+            </div>
+            <div class="header-actions">
+                <input type="search" placeholder="Search" class="search-field">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.currentUser}">
+                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                            ${sessionScope.currentUser.username}
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">Sign in</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

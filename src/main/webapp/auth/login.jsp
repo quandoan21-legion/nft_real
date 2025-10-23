@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,16 @@
             </div>
             <div class="header-actions">
                 <input type="search" placeholder="Search" class="search-field">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Join now</a>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.currentUser}">
+                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">
+                            ${sessionScope.currentUser.username}
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Join now</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
